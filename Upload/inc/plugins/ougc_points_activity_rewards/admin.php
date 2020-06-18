@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards/admin.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards/admin.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -27,24 +27,24 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
-namespace NewpointsActivityRewards\Admin;
+namespace OUGCPointsActivityRewards\Admin;
 
 function _info()
 {
 	global $lang;
 
-	\NewpointsActivityRewards\Core\load_language();
+	\OUGCPointsActivityRewards\Core\load_language();
 
 	return [
-		'name'			=> 'Newpoints Activity Rewards',
-		'description'	=> $lang->setting_group_newpoints_activity_rewards_desc,
+		'name'			=> 'OUGC Points Activity Rewards',
+		'description'	=> $lang->setting_group_ougc_points_activity_rewards_desc,
 		'website'		=> 'https://ougc.network',
 		'author'		=> 'Omar G.',
 		'authorsite'	=> 'https://ougc.network',
 		'version'		=> '1.8.0',
 		'versioncode'	=> 1800,
 		'compatibility'	=> '21*',
-		'codename'		=> 'newpoints_activity_rewards',
+		'codename'		=> 'ougc_points_activity_rewards',
 		'pl'			=> [
 			'version'	=> 13,
 			'url'		=> 'https://community.mybb.com/mods.php?action=view&pid=573'
@@ -56,19 +56,19 @@ function _activate()
 {
 	global $PL, $lang, $cache;
 
-	\NewpointsActivityRewards\Core\load_pluginlibrary();
+	\OUGCPointsActivityRewards\Core\load_pluginlibrary();
 
-	$PL->settings('newpoints_activity_rewards', $lang->setting_group_newpoints_activity_rewards, $lang->setting_group_newpoints_activity_rewards_desc, [
+	$PL->settings('ougc_points_activity_rewards', $lang->setting_group_ougc_points_activity_rewards, $lang->setting_group_ougc_points_activity_rewards_desc, [
 		'debug' => [
-			'title' => $lang->setting_newpoints_activity_rewards_debug,
-			'description' => $lang->setting_newpoints_activity_rewards_debug_desc,
+			'title' => $lang->setting_ougc_points_activity_rewards_debug,
+			'description' => $lang->setting_ougc_points_activity_rewards_debug_desc,
 			'optionscode' => 'onoff',
 			'value' =>	0,
 		]
 	]);
 
 	// Add templates
-    $templatesDirIterator = new \DirectoryIterator(NEWPOINTS_ACTIVITY_REWARDS_ROOT.'/templates');
+    $templatesDirIterator = new \DirectoryIterator(OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/templates');
 
 	$templates = [];
 
@@ -91,7 +91,7 @@ function _activate()
 
 	if($templates)
 	{
-		$PL->templates('newpointsactivityrewards', 'Newpoints Activity Rewards', $templates);
+		$PL->templates('pointsactivityrewards', 'OUGC Points Activity Rewards', $templates);
 	}
 
 	// Insert/update version into cache
@@ -102,11 +102,11 @@ function _activate()
 		$plugins = [];
 	}
 
-	$_info = \NewpointsActivityRewards\Admin\_info();
+	$_info = \OUGCPointsActivityRewards\Admin\_info();
 
-	if(!isset($plugins['newpoints_activity_rewards']))
+	if(!isset($plugins['pointsactivityrewards']))
 	{
-		$plugins['newpoints_activity_rewards'] = $_info['versioncode'];
+		$plugins['pointsactivityrewards'] = $_info['versioncode'];
 	}
 
 	_db_verify_tables();
@@ -124,7 +124,7 @@ function _activate()
 
 	/*~*~* RUN UPDATES END *~*~*/
 
-	$plugins['newpoints_activity_rewards'] = $_info['versioncode'];
+	$plugins['pointsactivityrewards'] = $_info['versioncode'];
 
 	$cache->update('ougc_plugins', $plugins);
 }
@@ -164,7 +164,7 @@ function _uninstall()
 {
 	global $db, $PL, $cache;
 
-	\NewpointsActivityRewards\Core\load_pluginlibrary();
+	\OUGCPointsActivityRewards\Core\load_pluginlibrary();
 
 	// Drop DB entries
 	foreach(_db_tables() as $name => $table)
@@ -180,18 +180,18 @@ function _uninstall()
 		}
 	}
 
-	$PL->cache_delete('newpoints_activity_rewards');
+	$PL->cache_delete('ougc_points_activity_rewards');
 
-	$PL->settings_delete('newpoints_activity_rewards');
+	$PL->settings_delete('ougc_points_activity_rewards');
 
-	$PL->templates_delete('newpointsactivityrewards');
+	$PL->templates_delete('ougcpointsactivityrewards');
 
 	// Delete version from cache
 	$plugins = (array)$cache->read('ougc_plugins');
 
-	if(isset($plugins['newpoints_activity_rewards']))
+	if(isset($plugins['pointsactivityrewards']))
 	{
-		unset($plugins['newpoints_activity_rewards']);
+		unset($plugins['pointsactivityrewards']);
 	}
 
 	if(!empty($plugins))
@@ -212,7 +212,7 @@ function _db_tables()
 	$collation = $db->build_create_table_collation();
 
 	return [
-		'newpoints_activity_rewards'	=> [
+		'ougc_points_activity_rewards'	=> [
 			'pid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
 			'title'			=> "varchar(150) NOT NULL DEFAULT ''",
 			'description'	=> "varchar(250) NOT NULL DEFAULT ''",
@@ -224,7 +224,7 @@ function _db_tables()
 			'hours'			=> "int(5) NOT NULL DEFAULT '24'",
 			'primary_key'	=> "pid"
 		],
-		'newpoints_activity_rewards_log'	=> [
+		'ougc_points_activity_rewards_log'	=> [
 			'lid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
 			'pid'			=> "int UNSIGNED NOT NULL",
 			'uid'			=> "int UNSIGNED NOT NULL",

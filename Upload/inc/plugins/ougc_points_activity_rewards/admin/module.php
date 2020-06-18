@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards/admin/module.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards/admin/module.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -30,33 +30,33 @@
 // Die if IN_MYBB is not defined, for security reasons.
 defined('IN_MYBB') or die('Direct initialization of this file is not allowed.');
 
-\NewpointsActivityRewards\Core\set_url('index.php?module=newpoints-activity_rewards');
+\OUGCPointsActivityRewards\Core\set_url('index.php?module=newpoints-activity_rewards');
 
-\NewpointsActivityRewards\Core\load_language();
+\OUGCPointsActivityRewards\Core\load_language();
 
-\NewpointsActivityRewards\Core\load_pluginlibrary();
+\OUGCPointsActivityRewards\Core\load_pluginlibrary();
 
 $pid = $mybb->get_input('pid', MyBB::INPUT_INT);
 
 // Page tabs
-$sub_tabs['newpoints_activity_rewards'] = [
-	'title'			=> $lang->newpoints_activity_rewards_admin,
-	'link'			=> \NewpointsActivityRewards\Core\get_url(),
-	'description'	=> $lang->newpoints_activity_rewards_admin_desc
+$sub_tabs['ougc_points_activity_rewards'] = [
+	'title'			=> $lang->ougc_points_activity_rewards_admin,
+	'link'			=> \OUGCPointsActivityRewards\Core\get_url(),
+	'description'	=> $lang->ougc_points_activity_rewards_admin_desc
 ];
 
-$sub_tabs['newpoints_activity_rewards_add'] = [
-    'title'			=> $lang->newpoints_activity_rewards_admin_add,
-    'link'			=> \NewpointsActivityRewards\Core\build_url(['action' => 'add']),
-    'description'	=> $lang->newpoints_activity_rewards_admin_add_desc
+$sub_tabs['ougc_points_activity_rewards_add'] = [
+    'title'			=> $lang->ougc_points_activity_rewards_admin_add,
+    'link'			=> \OUGCPointsActivityRewards\Core\build_url(['action' => 'add']),
+    'description'	=> $lang->ougc_points_activity_rewards_admin_add_desc
 ];
 
 if($mybb->get_input('action') == 'edit')
 {
-    $sub_tabs['newpoints_activity_rewards_edit'] = [
-        'title'			=> $lang->newpoints_activity_rewards_admin_edit,
-        'link'			=> \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]),
-        'description'	=> $lang->newpoints_activity_rewards_admin_edit_desc
+    $sub_tabs['ougc_points_activity_rewards_edit'] = [
+        'title'			=> $lang->ougc_points_activity_rewards_admin_edit,
+        'link'			=> \OUGCPointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]),
+        'description'	=> $lang->ougc_points_activity_rewards_admin_edit_desc
     ];
 }
 
@@ -72,15 +72,15 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
     }
     else
     {
-        $query = $db->simple_select('newpoints_activity_rewards', '*', "pid='{$pid}'");
+        $query = $db->simple_select('ougc_points_activity_rewards', '*', "pid='{$pid}'");
     
         if(!($package = $db->fetch_array($query)))
         {
-            admin_redirect(\NewpointsActivityRewards\Core\get_url());
+            admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
         }
     }
 
-    $_sub_tab = 'newpoints_activity_rewards_'.($add ? 'add' : 'edit');
+    $_sub_tab = 'ougc_points_activity_rewards_'.($add ? 'add' : 'edit');
 
     $page->add_breadcrumb_item($sub_tabs[$_sub_tab]['title'], $sub_tabs[$_sub_tab]['link']);
 
@@ -110,7 +110,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
         if(isset($mybb->input[$key]) && !in_array($mybb->input['type'], ['post', 'thread', 'rep']))
         {
-            flash_message($lang->newpoints_activity_rewards_admin_error_type, 'error');
+            flash_message($lang->ougc_points_activity_rewards_admin_error_type, 'error');
         }
 
         foreach(['active', 'amount', 'hours'] as $key)
@@ -123,25 +123,25 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
         if($add)
         {
-            $pid = $db->insert_query('newpoints_activity_rewards', $update_data);
+            $pid = $db->insert_query('ougc_points_activity_rewards', $update_data);
         }
         else
         {
-            $db->update_query('newpoints_activity_rewards', $update_data, "pid='{$pid}'");
+            $db->update_query('ougc_points_activity_rewards', $update_data, "pid='{$pid}'");
         }
 
-        \NewpointsActivityRewards\Core\update_cache();
+        \OUGCPointsActivityRewards\Core\update_cache();
 
         if($add)
         {
-            flash_message($lang->newpoints_activity_rewards_admin_success_add, 'success');
+            flash_message($lang->ougc_points_activity_rewards_admin_success_add, 'success');
         }
         else
         {
-            flash_message($lang->newpoints_activity_rewards_admin_success_edit, 'success');
+            flash_message($lang->ougc_points_activity_rewards_admin_success_edit, 'success');
         }
 
-        admin_redirect(\NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]));
+        admin_redirect(\OUGCPointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]));
     }
     else
     {
@@ -156,13 +156,13 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
         }
     }
 
-    $form = new Form(\NewpointsActivityRewards\Core\build_url(['action' => $add ? 'add' : 'edit', 'pid' => $pid]), 'post');
+    $form = new Form(\OUGCPointsActivityRewards\Core\build_url(['action' => $add ? 'add' : 'edit', 'pid' => $pid]), 'post');
 
     $form_container = new FormContainer($sub_tabs[$_sub_tab]['title']);
 
     foreach(['title', 'description', 'points', 'groups'] as $key)
     {
-        $lang_var = 'newpoints_activity_rewards_admin_'.$key;
+        $lang_var = 'ougc_points_activity_rewards_admin_'.$key;
         $lang_var_desc = $lang_var.'_desc';
 
         $form_container->output_row(
@@ -174,23 +174,23 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
     foreach(['type'] as $key)
     {
-        $lang_var = 'newpoints_activity_rewards_admin_'.$key;
+        $lang_var = 'ougc_points_activity_rewards_admin_'.$key;
         $lang_var_desc = $lang_var.'_desc';
 
         $form_container->output_row(
             $lang->{ $lang_var},
             $lang->{ $lang_var_desc},
             $form->generate_select_box($key,  [
-                'post' => $lang->newpoints_activity_rewards_admin_type_post,
-                'thread' => $lang->newpoints_activity_rewards_admin_type_thread,
-                'rep' => $lang->newpoints_activity_rewards_admin_type_rep
+                'post' => $lang->ougc_points_activity_rewards_admin_type_post,
+                'thread' => $lang->ougc_points_activity_rewards_admin_type_thread,
+                'rep' => $lang->ougc_points_activity_rewards_admin_type_rep
             ], $mybb->get_input($key, MyBB::INPUT_STRING)
         ));
     }
 
     foreach(['amount', 'hours'] as $key)
     {
-        $lang_var = 'newpoints_activity_rewards_admin_'.$key;
+        $lang_var = 'ougc_points_activity_rewards_admin_'.$key;
         $lang_var_desc = $lang_var.'_desc';
 
         $form_container->output_row(
@@ -202,7 +202,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
     foreach(['active'] as $key)
     {
-        $lang_var = 'newpoints_activity_rewards_admin_'.$key;
+        $lang_var = 'ougc_points_activity_rewards_admin_'.$key;
         $lang_var_desc = $lang_var.'_desc';
 
         $form_container->output_row(
@@ -227,46 +227,46 @@ elseif($mybb->get_input('action') == 'toggle')
 {
     $pid = $mybb->get_input('pid', MyBB::INPUT_INT);
 
-    $query = $db->simple_select('newpoints_activity_rewards', '*', "pid='{$pid}'");
+    $query = $db->simple_select('ougc_points_activity_rewards', '*', "pid='{$pid}'");
 
     if(!($package = $db->fetch_array($query)))
     {
-        flash_message($lang->newpoints_activity_rewards_admin_error_invalid, 'error');
+        flash_message($lang->ougc_points_activity_rewards_admin_error_invalid, 'error');
 
-        admin_redirect(\NewpointsActivityRewards\Core\get_url());
+        admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
     }
 
-    $db->update_query('newpoints_activity_rewards', ['active' => $package['active'] ? 0 : 1], "pid='{$pid}'");
+    $db->update_query('ougc_points_activity_rewards', ['active' => $package['active'] ? 0 : 1], "pid='{$pid}'");
 
-	\NewpointsActivityRewards\Core\update_cache();
+	\OUGCPointsActivityRewards\Core\update_cache();
 
-    flash_message($lang->newpoints_activity_rewards_admin_success_edit, 'success');
+    flash_message($lang->ougc_points_activity_rewards_admin_success_edit, 'success');
 
-    admin_redirect(\NewpointsActivityRewards\Core\get_url());
+    admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
 }
 else
 {
-    $page->output_header($lang->newpoints_activity_rewards_admin);
+    $page->output_header($lang->ougc_points_activity_rewards_admin);
 
-	$page->output_nav_tabs($sub_tabs, 'newpoints_activity_rewards');
+	$page->output_nav_tabs($sub_tabs, 'ougc_points_activity_rewards');
 
     $table = new Table;
 
-    $table->construct_header($lang->newpoints_activity_rewards_admin_type, ['width' => '10%']);
+    $table->construct_header($lang->ougc_points_activity_rewards_admin_type, ['width' => '10%']);
 
-    $table->construct_header($lang->newpoints_activity_rewards_admin_title, ['width' => '25%']);
+    $table->construct_header($lang->ougc_points_activity_rewards_admin_title, ['width' => '25%']);
 
-    $table->construct_header($lang->newpoints_activity_rewards_admin_description, ['width' => '35%']);
+    $table->construct_header($lang->ougc_points_activity_rewards_admin_description, ['width' => '35%']);
 
-    $table->construct_header($lang->newpoints_activity_rewards_admin_status, ['width' => '10%', 'class' => 'align_center']);
+    $table->construct_header($lang->ougc_points_activity_rewards_admin_status, ['width' => '10%', 'class' => 'align_center']);
 
 	$table->construct_header($lang->options, ['width' => '20%', 'class' => 'align_center']);
 
-	$query = $db->simple_select('newpoints_activity_rewards', '*', '', ['order_by' => 'type']);
+	$query = $db->simple_select('ougc_points_activity_rewards', '*', '', ['order_by' => 'type']);
 
     if(!$db->num_rows($query))
     {
-        $table->construct_cell($lang->newpoints_activity_rewards_admin_empty, ['colspan' => 3, 'class' => 'align_center']);
+        $table->construct_cell($lang->ougc_points_activity_rewards_admin_empty, ['colspan' => 3, 'class' => 'align_center']);
 
         $table->construct_row();
     }
@@ -274,11 +274,11 @@ else
     {
         while($package = $db->fetch_array($query))
         {
-            $lang_var = 'newpoints_activity_rewards_admin_type_'.$package['type'];
+            $lang_var = 'ougc_points_activity_rewards_admin_type_'.$package['type'];
 
             $table->construct_cell(htmlspecialchars_uni($lang->$lang_var));
 
-            $url = \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $package['pid']]);
+            $url = \OUGCPointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $package['pid']]);
 
             $table->construct_cell("<a href='{$url}'>".htmlspecialchars_uni($package['title']).'</a>');
 
@@ -290,7 +290,7 @@ else
 
             $popup->add_item($lang->edit, $url);
 
-            $popup->add_item($lang->ougc_socialauth_admin_toggle, \NewpointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
+            $popup->add_item($lang->ougc_socialauth_admin_toggle, \OUGCPointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
 
             $table->construct_cell($popup->fetch(), ['class' => 'align_center']);
 
@@ -298,7 +298,7 @@ else
         } 
     }
 
-    $table->output($sub_tabs['newpoints_activity_rewards']['description']);
+    $table->output($sub_tabs['ougc_points_activity_rewards']['description']);
 
 	$page->output_footer();
 }

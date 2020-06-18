@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards/core.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards/core.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -27,20 +27,22 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
-namespace NewpointsActivityRewards\Core;
+namespace OUGCPointsActivityRewards\Core;
 
 function load_language()
 {
-	isset($lang->setting_group_newpoints_activity_rewards) || newpoints_lang_load('newpoints_activity_rewards');
+	global $lang;
+
+	isset($lang->setting_group_ougc_points_activity_rewards) || $lang->load('ougc_points_activity_rewards');
 }
 
 function load_pluginlibrary()
 {
 	global $PL, $lang;
 
-	\NewpointsActivityRewards\Core\load_language();
+	\OUGCPointsActivityRewards\Core\load_language();
 
-	$_info = \NewpointsActivityRewards\Admin\_info();
+	$_info = \OUGCPointsActivityRewards\Admin\_info();
 
 	if($file_exists = file_exists(PLUGINLIBRARY))
 	{
@@ -51,7 +53,7 @@ function load_pluginlibrary()
 
 	if(!$file_exists || $PL->version < $_info['pl']['version'])
 	{
-		flash_message($lang->sprintf($lang->newpoints_activity_rewards_pluginlibrary, $_info['pl']['url'], $_info['pl']['version']), 'error');
+		flash_message($lang->sprintf($lang->ougc_points_activity_rewards_pluginlibrary, $_info['pl']['url'], $_info['pl']['version']), 'error');
 
 		admin_redirect('index.php?module=config-plugins');
 	}
@@ -92,7 +94,7 @@ function update_cache()
 {
 	global $mybb, $db;
 
-	$query = $db->simple_select('newpoints_activity_rewards', '*', "active='1' AND points>'0'");
+	$query = $db->simple_select('ougc_points_activity_rewards', '*', "active='1' AND points>'0'");
 
 	$packages = [];
 
@@ -101,7 +103,7 @@ function update_cache()
 		$packages[(int)$package['pid']] = $package;
 	}
 
-	$mybb->cache->update('newpoints_activity_rewards', $packages);
+	$mybb->cache->update('ougc_points_activity_rewards', $packages);
 }
 
 // Set url

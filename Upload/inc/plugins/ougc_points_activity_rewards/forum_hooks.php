@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards/forum_hooks.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards/forum_hooks.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -27,15 +27,13 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
-namespace NewpointsActivityRewards\ForumHooks;
+namespace OUGCPointsActivityRewards\ForumHooks;
 
 function newpoints_default_menu(&$menu)
 {
 	global $mybb, $lang, $templates;
 
-	\NewpointsActivityRewards\Core\load_language();
-
-	$menu[] = "{$i}<a href=\"{$mybb->settings['bburl']}/newpoints.php?action=activity_rewards\">Coupon Codes</a>";
+	\OUGCPointsActivityRewards\Core\load_language();
 
 	$i = $mybb->get_input('action') == 'activity_rewards' ? '&raquo; ' : '';
 
@@ -59,7 +57,7 @@ function newpoints_start()
 
 	$pid = $mybb->get_input('pid', \MyBB::INPUT_INT);
 
-	$packages = $cache->read('newpoints_activity_rewards');
+	$packages = $cache->read('ougc_points_activity_rewards');
 
 	if($mybb->request_method == "post")
 	{
@@ -77,18 +75,18 @@ function newpoints_start()
 			error_no_permission();
 		}
 
-		\NewpointsActivityRewards\Core\get_activity_count($package, $current_count);
+		\OUGCPointsActivityRewards\Core\get_activity_count($package, $current_count);
 
 		$package['amount'] = (int)$package['amount'];
 
 		if($current_count < $package['amount'])
 		{
-			error($lang->newpoints_activity_rewards_error_count);
+			error($lang->ougc_points_activity_rewards_error_count);
 		}
 
 		$package['points'] = (float)$package['points'];
 
-		newpoints_log('newpoints_activity_rewards', my_serialize([
+		newpoints_log('ougc_points_activity_rewards', my_serialize([
 			'pid' => $pid,
 			'amount' => $package['amount'],
 			'points' => $package['points'],
@@ -96,13 +94,13 @@ function newpoints_start()
 
 		newpoints_addpoints($mybb->user['uid'], $package['points']);
 
-		$db->insert_query('newpoints_activity_rewards_log', [
+		$db->insert_query('ougc_points_activity_rewards_log', [
 			'pid' => $pid,
 			'uid' => $uid,
 			'dateline' => TIME_NOW
 		]);
 
-		redirect($mybb->settings['bburl'].'/newpoints.php?action=activity_rewards', $lang->newpoints_activity_rewards_success);
+		redirect($mybb->settings['bburl'].'/newpoints.php?action=activity_rewards', $lang->ougc_points_activity_rewards_success);
 	}
 
 	if($packages)
@@ -128,7 +126,7 @@ function newpoints_start()
 	
 			$package['hours'] = (int)$package['hours'];
 
-			$lang_var = 'newpoints_activity_rewards_type_'.$package['type'];
+			$lang_var = 'ougc_points_activity_rewards_type_'.$package['type'];
 
 			$type = $lang->{$lang_var};
 	
@@ -142,7 +140,7 @@ function newpoints_start()
 
 			$interval = TIME_NOW - (60 * 60 * $package['hours']);
 
-			$query = $db->simple_select('newpoints_activity_rewards_log', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
+			$query = $db->simple_select('ougc_points_activity_rewards_log', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
 
 			$logs = $db->num_rows($query);
 
@@ -158,7 +156,7 @@ function newpoints_start()
 			}
 			else
 			{
-				\NewpointsActivityRewards\Core\get_activity_count($package, $current_count);
+				\OUGCPointsActivityRewards\Core\get_activity_count($package, $current_count);
 
 				if($current_count < $package['amount'])
 				{
@@ -168,7 +166,7 @@ function newpoints_start()
 	
 			$current_count = my_number_format($current_count);
 
-			${$var} .= eval($templates->render('newpointsactivityrewards_package'));
+			${$var} .= eval($templates->render('ougcpointsactivityrewards_package'));
 		}
 	}
 
@@ -184,10 +182,10 @@ function newpoints_start()
 
 	if(empty($post_package_list) && empty($thread_package_list) && empty($rep_package_list))
 	{
-		$post_package_list = eval($templates->render('newpointsactivityrewards_empty'));
+		$post_package_list = eval($templates->render('ougcpointsactivityrewards_empty'));
 	}
 
-	$page = eval($templates->render('newpointsactivityrewards'));
+	$page = eval($templates->render('ougcpointsactivityrewards'));
 
 	output_page($page);
 }

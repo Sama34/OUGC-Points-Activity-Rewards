@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards/admin_hooks.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards/admin_hooks.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -27,7 +27,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
-namespace NewpointsActivityRewards\AdminHooks;
+namespace OUGCPointsActivityRewards\AdminHooks;
 
 function admin_load()
 {
@@ -35,7 +35,7 @@ function admin_load()
 
 	if($run_module == 'newpoints' && $page->active_action == 'activity_rewards')
 	{
-		$modules_dir = NEWPOINTS_ACTIVITY_REWARDS_ROOT;
+		$modules_dir = OUGC_POINTS_ACTIVITY_REWARDS_ROOT;
 		$run_module = 'admin';
 		$action_file = 'module.php';
 	}
@@ -45,16 +45,16 @@ function newpoints_admin_newpoints_menu(&$menu)
 {
 	global $lang;
 
-	if(!\NewpointsActivityRewards\Admin\_is_installed())
+	if(!\OUGCPointsActivityRewards\Admin\_is_installed())
 	{
 		return;
 	}
 
-	\NewpointsActivityRewards\Core\load_language();
+	\OUGCPointsActivityRewards\Core\load_language();
 
 	$menu[] = [
 		'id' => 'activity_rewards',
-		'title' => $lang->newpoints_activity_rewards_admin,
+		'title' => $lang->ougc_points_activity_rewards_admin,
 		'link' => 'index.php?module=newpoints-activity_rewards'
 	];
 }
@@ -71,24 +71,24 @@ function admin_user_permissions(&$permissions)
 {
 	/*global $lang;
 
-	\NewpointsActivityRewards\Core\load_language();
+	\OUGCPointsActivityRewards\Core\load_language();
 
-	$permissions['activity_rewards'] =  $lang->newpoints_activity_rewards_permission;*/
+	$permissions['activity_rewards'] =  $lang->ougc_points_activity_rewards_permission;*/
 }
 
 function admin_tools_cache_start()
 {
 	global $cache;
 
-	/*\NewpointsActivityRewards\Core\control_object($cache, '
-		function update_newpoints_activity_rewards()
+	/*\OUGCPointsActivityRewards\Core\control_object($cache, '
+		function update_ougc_points_activity_rewards()
 		{
-			//\NewpointsActivityRewards\Core\update_cache();
+			//\OUGCPointsActivityRewards\Core\update_cache();
 		}
 	');*/
 }
 
 function admin_tools_cache_rebuild()
 {
-	\NewpointsActivityRewards\AdminHooks\admin_tools_cache_start();
+	\OUGCPointsActivityRewards\AdminHooks\admin_tools_cache_start();
 }

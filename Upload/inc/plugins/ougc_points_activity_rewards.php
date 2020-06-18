@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/newpoints_activity_rewards.php)
+ *	OUGC Points Activity Rewards plugin (/inc/plugins/ougc_points_activity_rewards.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -42,61 +42,61 @@ if(defined('THIS_SCRIPT') && THIS_SCRIPT == 'newpoints.php')
 		$templatelist = '';
 	}
 
-	$templatelist .= ',newpointsactivityrewards_menu, newpointsactivityrewards_package, newpointsactivityrewards';
+	$templatelist .= ',ougcpointsactivityrewards_menu, ougcpointsactivityrewards_package, ougcpointsactivityrewards';
 }
 
-define('NEWPOINTS_ACTIVITY_REWARDS_ROOT', MYBB_ROOT . 'inc/plugins/newpoints/newpoints_activity_rewards');
+define('OUGC_POINTS_ACTIVITY_REWARDS_ROOT', MYBB_ROOT . 'inc/plugins/ougc_points_activity_rewards');
 
-require_once NEWPOINTS_ACTIVITY_REWARDS_ROOT.'/core.php';
+require_once OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/core.php';
 
 // Add our hooks
 if(defined('IN_ADMINCP'))
 {
-	require_once NEWPOINTS_ACTIVITY_REWARDS_ROOT.'/admin.php';
+	require_once OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/admin.php';
 
-	require_once NEWPOINTS_ACTIVITY_REWARDS_ROOT.'/admin_hooks.php';
+	require_once OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/admin_hooks.php';
 
-	\NewpointsActivityRewards\Core\addHooks('NewpointsActivityRewards\AdminHooks');
+	\OUGCPointsActivityRewards\Core\addHooks('OUGCPointsActivityRewards\AdminHooks');
 }
 else
 {
-	require_once NEWPOINTS_ACTIVITY_REWARDS_ROOT.'/forum_hooks.php';
+	require_once OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/forum_hooks.php';
 
-	\NewpointsActivityRewards\Core\addHooks('NewpointsActivityRewards\ForumHooks');
+	\OUGCPointsActivityRewards\Core\addHooks('OUGCPointsActivityRewards\ForumHooks');
 }
 
 // Plugin API
-function newpoints_activity_rewards_info()
+function ougc_points_activity_rewards_info()
 {
-	return \NewpointsActivityRewards\Admin\_info();
+	return \OUGCPointsActivityRewards\Admin\_info();
 }
 
 // Activate the plugin.
-function newpoints_activity_rewards_activate()
+function ougc_points_activity_rewards_activate()
 {
-	\NewpointsActivityRewards\Admin\_activate();
+	\OUGCPointsActivityRewards\Admin\_activate();
 }
 
 // Deactivate the plugin.
-function newpoints_activity_rewards_deactivate()
+function ougc_points_activity_rewards_deactivate()
 {
-	\NewpointsActivityRewards\Admin\_deactivate();
+	\OUGCPointsActivityRewards\Admin\_deactivate();
 }
 
 // Install the plugin.
-function newpoints_activity_rewards_install()
+function ougc_points_activity_rewards_install()
 {
-	\NewpointsActivityRewards\Admin\_install();
+	\OUGCPointsActivityRewards\Admin\_install();
 }
 
 // Check if installed.
-function newpoints_activity_rewards_is_installed()
+function ougc_points_activity_rewards_is_installed()
 {
-	return \NewpointsActivityRewards\Admin\_is_installed();
+	return \OUGCPointsActivityRewards\Admin\_is_installed();
 }
 
 // Unnstall the plugin.
-function newpoints_activity_rewards_uninstall()
+function ougc_points_activity_rewards_uninstall()
 {
-	\NewpointsActivityRewards\Admin\_uninstall();
+	\OUGCPointsActivityRewards\Admin\_uninstall();
 }

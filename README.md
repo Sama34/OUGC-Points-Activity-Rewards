@@ -1,4 +1,4 @@
-## Newpoints Activity Rewards
+## OUGC Points Activity Rewards
 Allow users to request points rewards in exchange of activity.
 
 ***
