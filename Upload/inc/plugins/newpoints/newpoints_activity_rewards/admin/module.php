@@ -36,7 +36,7 @@ defined('IN_MYBB') or die('Direct initialization of this file is not allowed.');
 
 \NewpointsActivityRewards\Core\load_pluginlibrary();
 
-$aid = $mybb->get_input('aid', MyBB::INPUT_INT);
+$pid = $mybb->get_input('pid', MyBB::INPUT_INT);
 
 // Page tabs
 $sub_tabs['newpoints_activity_rewards'] = [
@@ -55,7 +55,7 @@ if($mybb->get_input('action') == 'edit')
 {
     $sub_tabs['newpoints_activity_rewards_edit'] = [
         'title'			=> $lang->newpoints_activity_rewards_admin_edit,
-        'link'			=> \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'aid' => $aid]),
+        'link'			=> \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]),
         'description'	=> $lang->newpoints_activity_rewards_admin_edit_desc
     ];
 }
@@ -72,7 +72,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
     }
     else
     {
-        $query = $db->simple_select('newpoints_activity_rewards', '*', "aid='{$aid}'");
+        $query = $db->simple_select('newpoints_activity_rewards', '*', "pid='{$pid}'");
     
         if(!($package = $db->fetch_array($query)))
         {
@@ -123,11 +123,11 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
         if($add)
         {
-            $aid = $db->insert_query('newpoints_activity_rewards', $update_data);
+            $pid = $db->insert_query('newpoints_activity_rewards', $update_data);
         }
         else
         {
-            $db->update_query('newpoints_activity_rewards', $update_data, "aid='{$aid}'");
+            $db->update_query('newpoints_activity_rewards', $update_data, "pid='{$pid}'");
         }
 
         \NewpointsActivityRewards\Core\update_cache();
@@ -141,7 +141,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
             flash_message($lang->newpoints_activity_rewards_admin_success_edit, 'success');
         }
 
-        admin_redirect(\NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'aid' => $aid]));
+        admin_redirect(\NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]));
     }
     else
     {
@@ -156,7 +156,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
         }
     }
 
-    $form = new Form(\NewpointsActivityRewards\Core\build_url(['action' => $add ? 'add' : 'edit', 'aid' => $aid]), 'post');
+    $form = new Form(\NewpointsActivityRewards\Core\build_url(['action' => $add ? 'add' : 'edit', 'pid' => $pid]), 'post');
 
     $form_container = new FormContainer($sub_tabs[$_sub_tab]['title']);
 
@@ -225,9 +225,9 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 }
 elseif($mybb->get_input('action') == 'toggle')
 {
-    $aid = $mybb->get_input('aid', MyBB::INPUT_INT);
+    $pid = $mybb->get_input('pid', MyBB::INPUT_INT);
 
-    $query = $db->simple_select('newpoints_activity_rewards', '*', "aid='{$aid}'");
+    $query = $db->simple_select('newpoints_activity_rewards', '*', "pid='{$pid}'");
 
     if(!($package = $db->fetch_array($query)))
     {
@@ -236,7 +236,7 @@ elseif($mybb->get_input('action') == 'toggle')
         admin_redirect(\NewpointsActivityRewards\Core\get_url());
     }
 
-    $db->update_query('newpoints_activity_rewards', ['active' => $package['active'] ? 0 : 1], "aid='{$aid}'");
+    $db->update_query('newpoints_activity_rewards', ['active' => $package['active'] ? 0 : 1], "pid='{$pid}'");
 
 	\NewpointsActivityRewards\Core\update_cache();
 
@@ -278,7 +278,7 @@ else
 
             $table->construct_cell(htmlspecialchars_uni($lang->$lang_var));
 
-            $url = \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'aid' => $package['aid']]);
+            $url = \NewpointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $package['pid']]);
 
             $table->construct_cell("<a href='{$url}'>".htmlspecialchars_uni($package['title']).'</a>');
 
@@ -286,11 +286,11 @@ else
 
             $table->construct_cell('<img src="styles/'.$page->style.'/images/icons/bullet_'.($package['active'] ? 'on' : 'off').'.png" /> ', ['class' => 'align_center']);
 
-            $popup = new PopupMenu('service_'.$package['aid'], $lang->options);
+            $popup = new PopupMenu('service_'.$package['pid'], $lang->options);
 
             $popup->add_item($lang->edit, $url);
 
-            $popup->add_item($lang->ougc_socialauth_admin_toggle, \NewpointsActivityRewards\Core\build_url(['action' => 'toggle', 'aid' => $package['aid']]));
+            $popup->add_item($lang->ougc_socialauth_admin_toggle, \NewpointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
 
             $table->construct_cell($popup->fetch(), ['class' => 'align_center']);
 

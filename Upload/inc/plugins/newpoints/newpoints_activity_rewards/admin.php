@@ -213,7 +213,7 @@ function _db_tables()
 
 	return [
 		'newpoints_activity_rewards'	=> [
-			'aid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
+			'pid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
 			'title'			=> "varchar(150) NOT NULL DEFAULT ''",
 			'description'	=> "varchar(250) NOT NULL DEFAULT ''",
 			'type'			=> "varchar(10) NOT NULL DEFAULT ''",
@@ -222,11 +222,11 @@ function _db_tables()
 			'points'		=> "DECIMAL(16,2) NOT NULL DEFAULT '0'",
 			'groups'		=> "text NULL",
 			'hours'			=> "int(5) NOT NULL DEFAULT '24'",
-			'primary_key'	=> "aid"
+			'primary_key'	=> "pid"
 		],
 		'newpoints_activity_rewards_log'	=> [
 			'lid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
-			'aid'			=> "int UNSIGNED NOT NULL",
+			'pid'			=> "int UNSIGNED NOT NULL",
 			'uid'			=> "int UNSIGNED NOT NULL",
 			'dateline'		=> "int(10) NOT NULL DEFAULT '0'",
 			'primary_key'	=> "lid"

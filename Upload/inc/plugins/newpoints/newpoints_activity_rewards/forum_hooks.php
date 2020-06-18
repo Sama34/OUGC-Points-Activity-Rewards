@@ -57,7 +57,7 @@ function newpoints_start()
 
 	$uid = (int)$mybb->user['uid'];
 
-	$aid = $mybb->get_input('aid', \MyBB::INPUT_INT);
+	$pid = $mybb->get_input('pid', \MyBB::INPUT_INT);
 
 	$packages = $cache->read('newpoints_activity_rewards');
 
@@ -65,12 +65,12 @@ function newpoints_start()
 	{
 		verify_post_check($mybb->get_input('my_post_code'));
 
-		if(empty($packages[$aid]) || !$packages[$aid]['active'])
+		if(empty($packages[$pid]) || !$packages[$pid]['active'])
 		{
 			error($lang->newpoints_activity_rewards_error_invalid);
 		}
 
-		$package = &$packages[$aid];
+		$package = &$packages[$pid];
 
 		if(!is_member($package['groups']))
 		{
@@ -89,7 +89,7 @@ function newpoints_start()
 		$package['points'] = (float)$package['points'];
 
 		newpoints_log('newpoints_activity_rewards', my_serialize([
-			'aid' => $aid,
+			'pid' => $pid,
 			'amount' => $package['amount'],
 			'points' => $package['points'],
 		]));
@@ -97,7 +97,7 @@ function newpoints_start()
 		newpoints_addpoints($mybb->user['uid'], $package['points']);
 
 		$db->insert_query('newpoints_activity_rewards_log', [
-			'aid' => $aid,
+			'pid' => $pid,
 			'uid' => $uid,
 			'dateline' => TIME_NOW
 		]);
@@ -107,7 +107,7 @@ function newpoints_start()
 
 	if($packages)
 	{
-		foreach($packages as $aid => $package)
+		foreach($packages as $pid => $package)
 		{
 			$package['active'] = (int)$package['active'];
 
@@ -116,7 +116,7 @@ function newpoints_start()
 				continue;
 			}
 
-			$package['aid'] = $aid = (int)$aid;
+			$package['pid'] = $pid = (int)$pid;
 
 			$package['title'] = htmlspecialchars_uni($package['title']);
 
@@ -142,7 +142,7 @@ function newpoints_start()
 
 			$interval = TIME_NOW - (60 * 60 * $package['hours']);
 
-			$query = $db->simple_select('newpoints_activity_rewards_log', '*', "aid='{$aid}' AND uid='{$uid}' AND dateline>'{$interval}'");
+			$query = $db->simple_select('newpoints_activity_rewards_log', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
 
 			$logs = $db->num_rows($query);
 

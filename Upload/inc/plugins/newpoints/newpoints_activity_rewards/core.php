@@ -98,7 +98,7 @@ function update_cache()
 
 	while($package = $db->fetch_array($query))
 	{
-		$packages[(int)$package['aid']] = $package;
+		$packages[(int)$package['pid']] = $package;
 	}
 
 	$mybb->cache->update('newpoints_activity_rewards', $packages);
