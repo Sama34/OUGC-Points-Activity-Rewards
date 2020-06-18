@@ -2,7 +2,7 @@
 
 /***************************************************************************
  *
- *	Newpoints Activity Rewards plugin (/inc/plugins/newpoints/languages/english/newpoints_activity_rewards.lang.php)
+ *	OUGC Points Activity Rewards plugin (/inc/languages/english/ougc_points_activity_rewards.lang.php)
  *	Author: Omar Gonzalez
  *	Copyright: © 2020 Omar Gonzalez
  *
@@ -28,19 +28,19 @@
 ****************************************************************************/
 
 $l = [
-	'setting_group_newpoints_activity_rewards' => 'Newpoints Activity Rewards',
-	'newpoints_activity_rewards' => '',
-	'newpoints_activity_rewards_menu' => 'Activity Rewards',
-	'newpoints_activity_rewards_amount' => 'Requirement',
-	'newpoints_activity_rewards_points' => 'Reward Points',
-	'newpoints_activity_rewards_hours' => 'Hours Interval',
-	'newpoints_activity_rewards_type_post' => 'Posts',
-	'newpoints_activity_rewards_type_thread' => 'Threads',
-	'newpoints_activity_rewards_type_rep' => 'Reputations',
-	'newpoints_activity_rewards_empty' => 'There are currently no packages available for you.',
-	'newpoints_activity_rewards_request' => 'Request',
-	'newpoints_activity_rewards_error_invalid' => 'The selected package is invalid',
-	'newpoints_activity_rewards_error_count' => 'You do not meet the package requirements.',
-	'newpoints_activity_rewards_success' => 'Your request was successful, the points have been added to your account.<br />You will be redirected back to the package list.',
-	'newpoints_activity_rewards_error_' => '',
+	'setting_group_ougc_points_activity_rewards' => 'OUGC Points Activity Rewards',
+	'ougc_points_activity_rewards' => '',
+	'ougc_points_activity_rewards_menu' => 'Activity Rewards',
+	'ougc_points_activity_rewards_amount' => 'Requirement',
+	'ougc_points_activity_rewards_points' => 'Reward Points',
+	'ougc_points_activity_rewards_hours' => 'Hours Interval',
+	'ougc_points_activity_rewards_type_post' => 'Posts',
+	'ougc_points_activity_rewards_type_thread' => 'Threads',
+	'ougc_points_activity_rewards_type_rep' => 'Reputations',
+	'ougc_points_activity_rewards_empty' => 'There are currently no packages available for you.',
+	'ougc_points_activity_rewards_request' => 'Request',
+	'ougc_points_activity_rewards_error_invalid' => 'The selected package is invalid',
+	'ougc_points_activity_rewards_error_count' => 'You do not meet the package requirements.',
+	'ougc_points_activity_rewards_success' => 'Your request was successful, the points have been added to your account.<br />You will be redirected back to the package list.',
+	'ougc_points_activity_rewards_error_' => '',
 ];
