@@ -72,7 +72,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
     }
     else
     {
-        $query = $db->simple_select('ougc_points_activity_rewards', '*', "pid='{$pid}'");
+        $query = $db->simple_select('ougc_points_activity_rewards_packages', '*', "pid='{$pid}'");
     
         if(!($package = $db->fetch_array($query)))
         {
@@ -90,7 +90,17 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
 	if($mybb->request_method == 'post')
 	{
-        $update_data = [];
+        $update_data = $errors = [];
+
+        foreach(['title', 'description', 'type', 'points', 'amount', 'hours'] as $key)
+        {
+            if(empty($mybb->input[$key]))
+            {
+                $lang_var = 'ougc_points_activity_rewards_admin_error_'.$key;
+
+                $errors[] = $lang->$lang_var;
+            }
+        }
 
         foreach(['title', 'description', 'groups', 'type'] as $key)
         {
@@ -102,15 +112,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 
         foreach(['points'] as $key)
         {
-            if(isset($mybb->input[$key]))
-            {
-                $update_data[$key] = (float)$mybb->input[$key];
-            }
-        }
-
-        if(isset($mybb->input[$key]) && !in_array($mybb->input['type'], ['post', 'thread', 'rep']))
-        {
-            flash_message($lang->ougc_points_activity_rewards_admin_error_type, 'error');
+            $update_data[$key] = (float)$mybb->input[$key];
         }
 
         foreach(['active', 'amount', 'hours'] as $key)
@@ -121,27 +123,39 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
             }
         }
 
-        if($add)
+        if(isset($mybb->input['type']) && !in_array($mybb->input['type'], ['post', 'thread', 'rep']))
         {
-            $pid = $db->insert_query('ougc_points_activity_rewards', $update_data);
+            $errors[] = $lang->ougc_points_activity_rewards_admin_error_type;
+        }
+
+        if($errors)
+        {
+            $page->output_inline_error($errors);
         }
         else
         {
-            $db->update_query('ougc_points_activity_rewards', $update_data, "pid='{$pid}'");
-        }
+            if($add)
+            {
+                $pid = $db->insert_query('ougc_points_activity_rewards_packages', $update_data);
+            }
+            else
+            {
+                $db->update_query('ougc_points_activity_rewards_packages', $update_data, "pid='{$pid}'");
+            }
 
-        \OUGCPointsActivityRewards\Core\update_cache();
-
-        if($add)
-        {
-            flash_message($lang->ougc_points_activity_rewards_admin_success_add, 'success');
+            \OUGCPointsActivityRewards\Core\update_cache();
+    
+            if($add)
+            {
+                flash_message($lang->ougc_points_activity_rewards_admin_success_add, 'success');
+            }
+            else
+            {
+                flash_message($lang->ougc_points_activity_rewards_admin_success_edit, 'success');
+            }
+    
+            admin_redirect(\OUGCPointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]));
         }
-        else
-        {
-            flash_message($lang->ougc_points_activity_rewards_admin_success_edit, 'success');
-        }
-
-        admin_redirect(\OUGCPointsActivityRewards\Core\build_url(['action' => 'edit', 'pid' => $pid]));
     }
     else
     {
@@ -215,7 +229,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 	$form_container->end();
 
 	$form->output_submit_wrapper([
-        $form->generate_submit_button($lang->ougc_socialauth_admin_save),
+        $form->generate_submit_button($lang->ougc_points_activity_rewards_admin_save),
         $form->generate_reset_button($lang->reset)
     ]);
 
@@ -227,7 +241,7 @@ elseif($mybb->get_input('action') == 'toggle')
 {
     $pid = $mybb->get_input('pid', MyBB::INPUT_INT);
 
-    $query = $db->simple_select('ougc_points_activity_rewards', '*', "pid='{$pid}'");
+    $query = $db->simple_select('ougc_points_activity_rewards_packages', '*', "pid='{$pid}'");
 
     if(!($package = $db->fetch_array($query)))
     {
@@ -236,7 +250,7 @@ elseif($mybb->get_input('action') == 'toggle')
         admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
     }
 
-    $db->update_query('ougc_points_activity_rewards', ['active' => $package['active'] ? 0 : 1], "pid='{$pid}'");
+    $db->update_query('ougc_points_activity_rewards_packages', ['active' => $package['active'] ? 0 : 1], "pid='{$pid}'");
 
 	\OUGCPointsActivityRewards\Core\update_cache();
 
@@ -262,7 +276,7 @@ else
 
 	$table->construct_header($lang->options, ['width' => '20%', 'class' => 'align_center']);
 
-	$query = $db->simple_select('ougc_points_activity_rewards', '*', '', ['order_by' => 'type']);
+	$query = $db->simple_select('ougc_points_activity_rewards_packages', '*', '', ['order_by' => 'type']);
 
     if(!$db->num_rows($query))
     {

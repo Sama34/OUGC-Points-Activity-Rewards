@@ -67,13 +67,13 @@ function admin_newpoints_action_handler(&$handlers)
 	];
 }
 
-function admin_user_permissions(&$permissions)
+function admin_newpoints_permissions(&$permissions)
 {
-	/*global $lang;
+	global $lang;
 
 	\OUGCPointsActivityRewards\Core\load_language();
 
-	$permissions['activity_rewards'] =  $lang->ougc_points_activity_rewards_permission;*/
+	$permissions['activity_rewards'] =  $lang->ougc_points_activity_rewards_permission;
 }
 
 function admin_tools_cache_start()
@@ -81,7 +81,7 @@ function admin_tools_cache_start()
 	global $cache;
 
 	/*\OUGCPointsActivityRewards\Core\control_object($cache, '
-		function update_ougc_points_activity_rewards()
+		function update_ougc_points_activity_rewards_packages()
 		{
 			//\OUGCPointsActivityRewards\Core\update_cache();
 		}

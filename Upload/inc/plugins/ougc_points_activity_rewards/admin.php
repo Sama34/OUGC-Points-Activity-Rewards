@@ -43,9 +43,10 @@ function _info()
 		'authorsite'	=> 'https://ougc.network',
 		'version'		=> '1.8.0',
 		'versioncode'	=> 1800,
-		'compatibility'	=> '21*',
+		'compatibility'	=> '18*',
 		'codename'		=> 'ougc_points_activity_rewards',
 		'pl'			=> [
+			'newpoints'	=> 210,
 			'version'	=> 13,
 			'url'		=> 'https://community.mybb.com/mods.php?action=view&pid=573'
 		]
@@ -59,11 +60,12 @@ function _activate()
 	\OUGCPointsActivityRewards\Core\load_pluginlibrary();
 
 	$PL->settings('ougc_points_activity_rewards', $lang->setting_group_ougc_points_activity_rewards, $lang->setting_group_ougc_points_activity_rewards_desc, [
-		'debug' => [
-			'title' => $lang->setting_ougc_points_activity_rewards_debug,
-			'description' => $lang->setting_ougc_points_activity_rewards_debug_desc,
-			'optionscode' => 'onoff',
-			'value' =>	0,
+		'plugin' => [
+			'title' => $lang->setting_ougc_points_activity_rewards_plugin,
+			'description' => $lang->setting_ougc_points_activity_rewards_plugin_desc,
+			'optionscode' => "select
+newpoints={$lang->setting_ougc_points_activity_rewards_plugin_newpoints}",
+			'value' =>	'newpoints',
 		]
 	]);
 
@@ -91,7 +93,7 @@ function _activate()
 
 	if($templates)
 	{
-		$PL->templates('pointsactivityrewards', 'OUGC Points Activity Rewards', $templates);
+		$PL->templates('ougcpointsactivityrewards', 'OUGC Points Activity Rewards', $templates);
 	}
 
 	// Insert/update version into cache
@@ -180,7 +182,7 @@ function _uninstall()
 		}
 	}
 
-	$PL->cache_delete('ougc_points_activity_rewards');
+	$PL->cache_delete('ougc_points_activity_rewards_packages');
 
 	$PL->settings_delete('ougc_points_activity_rewards');
 
@@ -212,7 +214,7 @@ function _db_tables()
 	$collation = $db->build_create_table_collation();
 
 	return [
-		'ougc_points_activity_rewards'	=> [
+		'ougc_points_activity_rewards_packages'	=> [
 			'pid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
 			'title'			=> "varchar(150) NOT NULL DEFAULT ''",
 			'description'	=> "varchar(250) NOT NULL DEFAULT ''",
@@ -224,7 +226,7 @@ function _db_tables()
 			'hours'			=> "int(5) NOT NULL DEFAULT '24'",
 			'primary_key'	=> "pid"
 		],
-		'ougc_points_activity_rewards_log'	=> [
+		'ougc_points_activity_rewards_logs'	=> [
 			'lid'			=> "int UNSIGNED NOT NULL AUTO_INCREMENT",
 			'pid'			=> "int UNSIGNED NOT NULL",
 			'uid'			=> "int UNSIGNED NOT NULL",

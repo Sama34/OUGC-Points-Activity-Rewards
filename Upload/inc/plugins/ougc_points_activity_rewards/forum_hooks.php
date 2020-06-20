@@ -37,7 +37,7 @@ function newpoints_default_menu(&$menu)
 
 	$i = $mybb->get_input('action') == 'activity_rewards' ? '&raquo; ' : '';
 
-	$menu[] = eval($templates->render('newpointsactivityrewards_menu'));
+	$menu[] = eval($templates->render('ougcpointsactivityrewards_menu'));
 }
 
 function newpoints_start()
@@ -57,7 +57,11 @@ function newpoints_start()
 
 	$pid = $mybb->get_input('pid', \MyBB::INPUT_INT);
 
-	$packages = $cache->read('ougc_points_activity_rewards');
+	$packages = $cache->read('ougc_points_activity_rewards_packages');
+
+	$packages || $packages = $cache->read('ougc_points_activity_rewards_packages', true);
+
+	$packages || \OUGCPointsActivityRewards\Core\update_cache($packages);
 
 	if($mybb->request_method == "post")
 	{
@@ -94,7 +98,7 @@ function newpoints_start()
 
 		newpoints_addpoints($mybb->user['uid'], $package['points']);
 
-		$db->insert_query('ougc_points_activity_rewards_log', [
+		$db->insert_query('ougc_points_activity_rewards_logs', [
 			'pid' => $pid,
 			'uid' => $uid,
 			'dateline' => TIME_NOW
@@ -140,7 +144,7 @@ function newpoints_start()
 
 			$interval = TIME_NOW - (60 * 60 * $package['hours']);
 
-			$query = $db->simple_select('ougc_points_activity_rewards_log', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
+			$query = $db->simple_select('ougc_points_activity_rewards_logs', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
 
 			$logs = $db->num_rows($query);
 

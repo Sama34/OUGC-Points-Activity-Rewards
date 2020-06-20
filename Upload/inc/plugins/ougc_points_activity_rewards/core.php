@@ -90,11 +90,11 @@ function addHooks(string $namespace)
     }
 }
 
-function update_cache()
+function update_cache(&$packages=null)
 {
 	global $mybb, $db;
 
-	$query = $db->simple_select('ougc_points_activity_rewards', '*', "active='1' AND points>'0'");
+	$query = $db->simple_select('ougc_points_activity_rewards_packages', '*', "active='1' AND points>'0'");
 
 	$packages = [];
 
@@ -103,7 +103,7 @@ function update_cache()
 		$packages[(int)$package['pid']] = $package;
 	}
 
-	$mybb->cache->update('ougc_points_activity_rewards', $packages);
+	$mybb->cache->update('ougc_points_activity_rewards_packages', $packages);
 }
 
 // Set url
