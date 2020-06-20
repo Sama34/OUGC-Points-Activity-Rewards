@@ -29,6 +29,28 @@
 
 namespace OUGCPointsActivityRewards\ForumHooks;
 
+function global_start()
+{
+	global $templatelist;
+
+	if(isset($templatelist))
+	{
+		$templatelist .= ',';
+	}
+	else
+	{
+		$templatelist = '';
+	}
+
+	if(defined('THIS_SCRIPT'))
+	{
+		if(THIS_SCRIPT == 'newpoints.php')
+		{
+			$templatelist .= ',ougcpointsactivityrewards_menu, ougcpointsactivityrewards_package, ougcpointsactivityrewards';
+		}
+	}
+}
+
 function newpoints_default_menu(&$menu)
 {
 	global $mybb, $lang, $templates;

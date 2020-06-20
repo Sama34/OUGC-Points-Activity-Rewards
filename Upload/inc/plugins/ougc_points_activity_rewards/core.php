@@ -180,7 +180,7 @@ function get_activity_count($package, &$count)
 				"uid='{$uid}' AND dateline>'{$interval}'"
 			);
 
-			$count = (int)$db->fetch_field($query, 'total_posts');
+			$count = (int)$db->fetch_field($query, 'total_reputation');
 			break;
 	}
 }

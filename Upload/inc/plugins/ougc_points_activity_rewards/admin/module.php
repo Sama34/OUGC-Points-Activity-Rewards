@@ -304,7 +304,7 @@ else
 
             $popup->add_item($lang->edit, $url);
 
-            $popup->add_item($lang->ougc_socialauth_admin_toggle, \OUGCPointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
+            $popup->add_item($lang->ougc_points_activity_rewards_admin_toggle, \OUGCPointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
 
             $table->construct_cell($popup->fetch(), ['class' => 'align_center']);
 

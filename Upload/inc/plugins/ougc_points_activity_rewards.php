@@ -33,18 +33,6 @@ if(!defined('IN_MYBB'))
 	die('This file cannot be accessed directly.');
 }
 
-if(defined('THIS_SCRIPT') && THIS_SCRIPT == 'newpoints.php')
-{
-	global $templatelist;
-
-	if(!isset($templatelist))
-	{
-		$templatelist = '';
-	}
-
-	$templatelist .= ',ougcpointsactivityrewards_menu, ougcpointsactivityrewards_package, ougcpointsactivityrewards';
-}
-
 define('OUGC_POINTS_ACTIVITY_REWARDS_ROOT', MYBB_ROOT . 'inc/plugins/ougc_points_activity_rewards');
 
 require_once OUGC_POINTS_ACTIVITY_REWARDS_ROOT.'/core.php';

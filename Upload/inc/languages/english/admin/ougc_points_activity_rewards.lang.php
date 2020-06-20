@@ -70,7 +70,7 @@ $l = [
 	'ougc_points_activity_rewards_admin_success_add' => 'The package was successfully added.',
 	'ougc_points_activity_rewards_admin_success_edit' => 'The package was successfully updated.',
 	'ougc_points_activity_rewards_admin_success' => '',
-	'ougc_points_activity_rewards_admin_error' => '',
+	'ougc_points_activity_rewards_admin_toggle' => 'Toggle Status',
 	'ougc_points_activity_rewards_admin_save' => 'Save',
 	'ougc_points_activity_rewards_admin_empty' => 'There are currently no packages available.',
 	'ougc_points_activity_rewards_pluginlibrary' => 'This plugin requires <a href="{1}">PluginLibrary</a> version {2} or later to be uploaded to your forum.'
