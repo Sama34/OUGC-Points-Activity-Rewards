@@ -178,7 +178,8 @@ function newpoints_start()
 			{
 				$disabled = ' disabled="disabled"';
 
-				$current_count = $amount;
+				//$current_count = $amount;
+				$current_count = 0;
 			}
 			else
 			{
