@@ -31,10 +31,13 @@ namespace OUGCPointsActivityRewards\AdminHooks;
 
 function admin_load()
 {
-	global $modules_dir, $run_module, $action_file, $page;
+	global $modules_dir, $run_module, $action_file, $page, $ougc_modules_dir, $ougc_run_module;
 
 	if($run_module == 'newpoints' && $page->active_action == 'activity_rewards')
 	{
+		$ougc_modules_dir = $modules_dir;
+		$ougc_run_module = $run_module;
+
 		$modules_dir = OUGC_POINTS_ACTIVITY_REWARDS_ROOT;
 		$run_module = 'admin';
 		$action_file = 'module.php';

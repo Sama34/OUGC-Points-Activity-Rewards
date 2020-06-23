@@ -30,6 +30,10 @@
 // Die if IN_MYBB is not defined, for security reasons.
 defined('IN_MYBB') or die('Direct initialization of this file is not allowed.');
 
+// We reset these here..
+$modules_dir = $ougc_modules_dir;
+$run_module = $ougc_run_module;
+
 \OUGCPointsActivityRewards\Core\set_url('index.php?module=newpoints-activity_rewards');
 
 \OUGCPointsActivityRewards\Core\load_language();
