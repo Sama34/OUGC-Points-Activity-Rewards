@@ -174,20 +174,29 @@ function newpoints_start()
 
 			$current_count = 0;
 
+			\OUGCPointsActivityRewards\Core\get_activity_count($package, $current_count);
+
 			if($logs)
 			{
 				$disabled = ' disabled="disabled"';
 
 				//$current_count = $amount;
-				$current_count = 0;
+				//$current_count = 0;
+
+				if($current_count >= $package['amount'])
+				{
+					$current_count -= $package['amount'];
+				}
 			}
 			else
 			{
-				\OUGCPointsActivityRewards\Core\get_activity_count($package, $current_count);
-
 				if($current_count < $package['amount'])
 				{
 					$disabled = ' disabled="disabled"';
+				}
+				else
+				{
+					$current_count = $package['amount'];
 				}
 			}
 	
