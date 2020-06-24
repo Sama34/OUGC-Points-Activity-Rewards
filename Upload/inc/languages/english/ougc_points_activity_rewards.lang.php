@@ -29,7 +29,6 @@
 
 $l = [
 	'setting_group_ougc_points_activity_rewards' => 'OUGC Points Activity Rewards',
-	'ougc_points_activity_rewards' => '',
 	'ougc_points_activity_rewards_menu' => 'Activity Rewards',
 	'ougc_points_activity_rewards_amount' => 'Requirement',
 	'ougc_points_activity_rewards_points' => 'Reward Points',
@@ -42,5 +41,4 @@ $l = [
 	'ougc_points_activity_rewards_error_invalid' => 'The selected package is invalid',
 	'ougc_points_activity_rewards_error_count' => 'You do not meet the package requirements.',
 	'ougc_points_activity_rewards_success' => 'Your request was successful, the points have been added to your account.<br />You will be redirected back to the package list.',
-	'ougc_points_activity_rewards_error_' => '',
 ];

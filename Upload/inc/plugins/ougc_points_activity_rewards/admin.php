@@ -46,7 +46,7 @@ function _info()
 		'compatibility'	=> '18*',
 		'codename'		=> 'ougc_points_activity_rewards',
 		'pl'			=> [
-			'newpoints'	=> 210,
+			'newpoints'	=> 211,
 			'version'	=> 13,
 			'url'		=> 'https://community.mybb.com/mods.php?action=view&pid=573'
 		]
@@ -113,15 +113,6 @@ newpoints={$lang->setting_ougc_points_activity_rewards_plugin_newpoints}",
 
 	_db_verify_tables();
 
-	_db_verify_columns();
-
-	_db_verify_indexes();
-
-	require_once MYBB_ROOT.'inc/adminfunctions_templates.php';
-
-	//find_replace_templatesets('usercp_nav_misc', '#'.preg_quote('').'#', '');
-	//find_replace_templatesets('stats', '#'.preg_quote('').'#', "");
-
 	/*~*~* RUN UPDATES START *~*~*/
 
 	/*~*~* RUN UPDATES END *~*~*/
@@ -131,21 +122,9 @@ newpoints={$lang->setting_ougc_points_activity_rewards_plugin_newpoints}",
 	$cache->update('ougc_plugins', $plugins);
 }
 
-function _deactivate()
-{
-	require_once MYBB_ROOT.'inc/adminfunctions_templates.php';
-
-	//find_replace_templatesets('usercp_nav_misc', '#'.preg_quote('').'#i', '', 0);
-	//find_replace_templatesets('stats', '#'.preg_quote('').'#i', '', 0);
-}
-
 function _install()
 {
 	_db_verify_tables();
-
-	_db_verify_columns();
-
-	_db_verify_indexes();
 }
 
 function _is_installed()
@@ -172,14 +151,6 @@ function _uninstall()
 	foreach(_db_tables() as $name => $table)
 	{
 		$db->drop_table($name);
-	}
-
-	foreach(_db_columns() as $table => $columns)
-	{
-		foreach($columns as $name => $definition)
-		{
-			!$db->field_exists($name, $table) || $db->drop_column($table, $name);
-		}
 	}
 
 	$PL->cache_delete('ougc_points_activity_rewards_packages');
@@ -236,15 +207,6 @@ function _db_tables()
 	];
 }
 
-// List of columns
-function _db_columns()
-{
-	return [
-		'users'	=> [
-		],
-	];
-}
-
 // Verify DB tables
 function _db_verify_tables()
 {
@@ -294,30 +256,4 @@ function _db_verify_tables()
 			$db->write_query($query);
 		}
 	}
-}
-
-// Verify DB columns
-function _db_verify_columns()
-{
-	global $db;
-
-	foreach(_db_columns() as $table => $columns)
-	{
-		foreach($columns as $field => $definition)
-		{
-			if($db->field_exists($field, $table))
-			{
-				$db->modify_column($table, "`{$field}`", $definition);
-			}
-			else
-			{
-				$db->add_column($table, $field, $definition);
-			}
-		}
-	}
-}
-
-// Verify DB indexes
-function _db_verify_indexes()
-{
 }

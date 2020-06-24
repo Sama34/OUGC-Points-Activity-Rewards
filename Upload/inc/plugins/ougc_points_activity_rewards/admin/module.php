@@ -70,11 +70,7 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
 {
     $add = $mybb->get_input('action') == 'add';
 
-    if($add)
-    {
-
-    }
-    else
+    if(!$add)
     {
         $query = $db->simple_select('ougc_points_activity_rewards_packages', '*', "pid='{$pid}'");
     
@@ -167,7 +163,14 @@ if($mybb->get_input('action') == 'add' || $mybb->get_input('action') == 'edit')
         {
             if(!isset($mybb->input[$key]))
             {
-                $mybb->input[$key] = $package[$key];
+                if(isset($package[$key]))
+                {
+                    $mybb->input[$key] = $package[$key];
+                }
+                else
+                {
+                    $mybb->input[$key] = '';
+                }
             }
 
             $mybb->input[$key] = htmlspecialchars_uni($mybb->input[$key]);
@@ -262,6 +265,38 @@ elseif($mybb->get_input('action') == 'toggle')
 
     admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
 }
+elseif($mybb->get_input('action') == 'delete')
+{
+    $pid = $mybb->get_input('pid', MyBB::INPUT_INT);
+
+    $query = $db->simple_select('ougc_points_activity_rewards_packages', '*', "pid='{$pid}'");
+
+    if(!($package = $db->fetch_array($query)))
+    {
+        flash_message($lang->ougc_points_activity_rewards_admin_error_invalid, 'error');
+
+        admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
+    }
+
+    if($mybb->request_method != 'post')
+    {
+        $page->output_confirm_action(
+            \OUGCPointsActivityRewards\Core\build_url(['action' => 'delete', 'pid' => $pid, 'confirm' => 1]),
+            $lang->ougc_points_activity_rewards_admin_confirm_delete
+        );
+    }
+
+    if(!$mybb->get_input('no', \MyBB::INPUT_STRING))
+    {
+        $db->delete_query('ougc_points_activity_rewards_packages', "pid='{$pid}'");
+    
+        \OUGCPointsActivityRewards\Core\update_cache();
+    
+        flash_message($lang->ougc_points_activity_rewards_admin_success_deleted, 'success');
+    }
+
+    admin_redirect(\OUGCPointsActivityRewards\Core\get_url());
+}
 else
 {
     $page->output_header($lang->ougc_points_activity_rewards_admin);
@@ -307,6 +342,8 @@ else
             $popup = new PopupMenu('service_'.$package['pid'], $lang->options);
 
             $popup->add_item($lang->edit, $url);
+
+            $popup->add_item($lang->delete, \OUGCPointsActivityRewards\Core\build_url(['action' => 'delete', 'pid' => $package['pid']]));
 
             $popup->add_item($lang->ougc_points_activity_rewards_admin_toggle, \OUGCPointsActivityRewards\Core\build_url(['action' => 'toggle', 'pid' => $package['pid']]));
 

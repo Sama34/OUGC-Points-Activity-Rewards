@@ -224,4 +224,6 @@ function newpoints_start()
 	$page = eval($templates->render('ougcpointsactivityrewards'));
 
 	output_page($page);
+
+	exit;
 }

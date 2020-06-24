@@ -65,12 +65,6 @@ function ougc_points_activity_rewards_activate()
 	\OUGCPointsActivityRewards\Admin\_activate();
 }
 
-// Deactivate the plugin.
-function ougc_points_activity_rewards_deactivate()
-{
-	\OUGCPointsActivityRewards\Admin\_deactivate();
-}
-
 // Install the plugin.
 function ougc_points_activity_rewards_install()
 {
