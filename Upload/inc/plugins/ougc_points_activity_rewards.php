@@ -53,6 +53,9 @@ else
 	\OUGCPointsActivityRewards\Core\addHooks('OUGCPointsActivityRewards\ForumHooks');
 }
 
+// PLUGINLIBRARY
+defined('PLUGINLIBRARY') or define('PLUGINLIBRARY', MYBB_ROOT.'inc/plugins/pluginlibrary.php');
+
 // Plugin API
 function ougc_points_activity_rewards_info()
 {
