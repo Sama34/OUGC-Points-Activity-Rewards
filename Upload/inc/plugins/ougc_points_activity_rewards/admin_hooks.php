@@ -83,7 +83,7 @@ function admin_tools_cache_start()
 {
 	global $cache;
 
-	\OUGCPointsActivityRewards\Core\control_object($cache, '
+	\control_object($cache, '
 		function update_ougc_points_activity_rewards_packages()
 		{
 			\OUGCPointsActivityRewards\Core\update_cache();

@@ -185,33 +185,36 @@ function get_activity_count($package, &$count)
 	}
 }
 
-// control_object by Zinga Burga from MyBBHacks ( mybbhacks.zingaburga.com ), 1.68
-function control_object(&$obj, $code) {
-	static $cnt = 0;
-	$newname = '_objcont_'.(++$cnt);
-	$objserial = serialize($obj);
-	$classname = get_class($obj);
-	$checkstr = 'O:'.strlen($classname).':"'.$classname.'":';
-	$checkstr_len = strlen($checkstr);
-	if(substr($objserial, 0, $checkstr_len) == $checkstr) {
-		$vars = array();
-		// grab resources/object etc, stripping scope info from keys
-		foreach((array)$obj as $k => $v) {
-			if($p = strrpos($k, "\0"))
-				$k = substr($k, $p+1);
-			$vars[$k] = $v;
+if(!function_exists('control_object'))
+{
+	// control_object by Zinga Burga from MyBBHacks ( mybbhacks.zingaburga.com ), 1.68
+	function control_object(&$obj, $code) {
+		static $cnt = 0;
+		$newname = '_objcont_'.(++$cnt);
+		$objserial = serialize($obj);
+		$classname = get_class($obj);
+		$checkstr = 'O:'.strlen($classname).':"'.$classname.'":';
+		$checkstr_len = strlen($checkstr);
+		if(substr($objserial, 0, $checkstr_len) == $checkstr) {
+			$vars = array();
+			// grab resources/object etc, stripping scope info from keys
+			foreach((array)$obj as $k => $v) {
+				if($p = strrpos($k, "\0"))
+					$k = substr($k, $p+1);
+				$vars[$k] = $v;
+			}
+			if(!empty($vars))
+				$code .= '
+					function ___setvars(&$a) {
+						foreach($a as $k => &$v)
+							$this->$k = $v;
+					}
+				';
+			eval('class '.$newname.' extends '.$classname.' {'.$code.'}');
+			$obj = unserialize('O:'.strlen($newname).':"'.$newname.'":'.substr($objserial, $checkstr_len));
+			if(!empty($vars))
+				$obj->___setvars($vars);
 		}
-		if(!empty($vars))
-			$code .= '
-				function ___setvars(&$a) {
-					foreach($a as $k => &$v)
-						$this->$k = $v;
-				}
-			';
-		eval('class '.$newname.' extends '.$classname.' {'.$code.'}');
-		$obj = unserialize('O:'.strlen($newname).':"'.$newname.'":'.substr($objserial, $checkstr_len));
-		if(!empty($vars))
-			$obj->___setvars($vars);
+		// else not a valid object or PHP serialize has changed
 	}
-	// else not a valid object or PHP serialize has changed
 }
