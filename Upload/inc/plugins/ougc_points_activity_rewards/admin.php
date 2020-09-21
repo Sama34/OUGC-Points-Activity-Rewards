@@ -55,7 +55,7 @@ function _info()
 
 function _activate()
 {
-	global $PL, $lang, $cache;
+	global $PL, $lang, $cache, $db;
 
 	\OUGCPointsActivityRewards\Core\load_pluginlibrary();
 
@@ -114,6 +114,27 @@ newpoints={$lang->setting_ougc_points_activity_rewards_plugin_newpoints}",
 	_db_verify_tables();
 
 	/*~*~* RUN UPDATES START *~*~*/
+
+	if($plugins['pointsactivityrewards'] <= 1800)
+	{
+		$query = $db->simple_select('newpoints_log', '*', "action='ougc_points_activity_rewards'");
+	
+		while($log = $db->fetch_array($query))
+		{
+			$data = my_unserialize($log['data']);
+	
+			if(!(is_array($data) && !empty($data)))
+			{
+				continue;
+			}
+
+			$db->update_query(
+				'newpoints_log',
+				['data' => "PID: {$data['pid']}, Amount: {$data['amount']}, Points: {$data['points']}"],
+				"lid='{$log['lid']}'"
+			);
+		}
+	}
 
 	/*~*~* RUN UPDATES END *~*~*/
 

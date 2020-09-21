@@ -110,13 +110,18 @@ function newpoints_start()
 			error($lang->ougc_points_activity_rewards_error_count);
 		}
 
+		$interval = TIME_NOW - (60 * 60 * $package['hours']);
+
+		$query = $db->simple_select('ougc_points_activity_rewards_logs', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>='{$interval}'");
+
+		if($db->num_rows($query))
+		{
+			error_no_permission();
+		}
+
 		$package['points'] = (float)$package['points'];
 
-		newpoints_log('ougc_points_activity_rewards', my_serialize([
-			'pid' => $pid,
-			'amount' => $package['amount'],
-			'points' => $package['points'],
-		]));
+		newpoints_log('ougc_points_activity_rewards', "PID: {$pid}, Amount: {$package['amount']}, Points: {$package['points']}");
 
 		newpoints_addpoints($mybb->user['uid'], $package['points']);
 
@@ -166,7 +171,7 @@ function newpoints_start()
 
 			$interval = TIME_NOW - (60 * 60 * $package['hours']);
 
-			$query = $db->simple_select('ougc_points_activity_rewards_logs', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>'{$interval}'");
+			$query = $db->simple_select('ougc_points_activity_rewards_logs', '*', "pid='{$pid}' AND uid='{$uid}' AND dateline>='{$interval}'");
 
 			$logs = $db->num_rows($query);
 
